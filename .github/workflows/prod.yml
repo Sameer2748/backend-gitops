@@ -39,4 +39,5 @@ jobs:
           git config user.email "actions@github.com"
           git add .
           git commit -m "Update image to ${GITHUB_SHA}"
-          git push https://${PAT}@github.com/Sameer2748/argocd-manifest-todo-app main
+          git push https://x-access-token:${PAT}@github.com/Sameer2748/argocd-manifest-todo-app.git main
+
