@@ -27,3 +27,18 @@ jobs:
           push: true
           tags: sameer27488/todo-app-gitops:${{ github.sha }}
          
+      - name: Clone staging-ops repo, update, and push
+        env:
+          PAT: ${{ secrets.PAT }}
+        run: |
+          git clone https://github.com/Sameer2748/argocd-manifest-todo-app
+          cd staging-ops
+          sed -i 's|image: sameer27488/todo-app-gitops:.*|image: sameer27488/todo-app-gitops:${{ github.sha }}|' manifest.yml
+          git config user.name "GitHub Actions Bot"
+          git config user.email "actions@github.com"
+          git add .
+          git commit -m "Update image to ${{ github.sha }}"
+          git push https://${PAT}@github.com/Sameer2748/argocd-manifest-todo-app main
+
+
+# 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
