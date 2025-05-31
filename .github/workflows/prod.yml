@@ -1,7 +1,7 @@
 name: Continuous Deployment
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -26,16 +26,17 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: sameer27488/todo-app-gitops:${{ github.sha }}
-         
+
       - name: Clone staging-ops repo, update, and push
         env:
           PAT: ${{ secrets.PAT }}
+          GITHUB_SHA: ${{ github.sha }}
         run: |
           git clone https://github.com/Sameer2748/argocd-manifest-todo-app
           cd argocd-manifest-todo-app
-          sed -i 's|image: sameer27488/todo-app-gitops:.*|image: sameer27488/todo-app-gitops:${{ github.sha }}|' manifest.yml
+          sed -i "s|image: sameer27488/todo-app-gitops:.*|image: sameer27488/todo-app-gitops:${GITHUB_SHA}|" manifest.yml
           git config user.name "GitHub Actions Bot"
           git config user.email "actions@github.com"
           git add .
-          git commit -m "Update image to ${{ github.sha }}"
+          git commit -m "Update image to ${GITHUB_SHA}"
           git push https://${PAT}@github.com/Sameer2748/argocd-manifest-todo-app main
