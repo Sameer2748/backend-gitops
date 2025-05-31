@@ -39,6 +39,3 @@ jobs:
           git add .
           git commit -m "Update image to ${{ github.sha }}"
           git push https://${PAT}@github.com/Sameer2748/argocd-manifest-todo-app main
-
-
-# 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
